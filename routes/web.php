@@ -31,6 +31,14 @@ Route::get('/dashboard/transactions/{d}','DashboardTransactionsController@detail
 Route::get('/dashboard/settings','DashboardSettingController@store')->name('dashboard-settings-store');
 Route::get('/dashboard/account','DashboardSettingController@account')->name('dashboard-settings-account');
 
+Route::prefix('admin')
+->namespace('Admin')
+->group(function(){
+    Route::get('/','DashboardController@index')->name('admin-dashboard');
+    Route::resource('category','CategoryController');
+    
+});
+
 
 Route::get('/register/success','Auth\RegisterController@success')->name('register-success');
 Auth::routes();
