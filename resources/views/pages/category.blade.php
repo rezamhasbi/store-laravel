@@ -10,107 +10,32 @@
       <section class="store-trend-categories">
         <div class="container">
           <div class="row">
-            <div class="col-12" data-aos="fade-up">
-              <h5>All Categories</h5>
-            </div>
-          </div>
-          <div class="row">
+                        @php
+                $incrementCategory = 0;
+            @endphp
+            @forelse ($categories as $category)
             <div
-              class="col-6 col-md-3 col-lg-2"
-              data-aos="fade-up"
-              data-aos-delay="100"
-            >
-              <a class="component-categories d-block" href="#">
-                <div class="categories-image">
-                  <img
-                    src="/images/categories-gadgets.svg"
-                    alt="Gadgets Categories"
-                    class="w-100"
-                  />
+                class="col-6 col-md-3 col-lg-2"
+                data-aos="fade-up"
+                data-aos-delay="{{$incrementCategory+=100}}"
+              >
+                <a class="component-categories d-block" href="{{route('categories-detail',$category->slug)}}" class="component-categories d-block">
+                  <div class="categories-image">
+                    <img
+                      src="{{Storage::url($category->photo)}}"
+                      alt="Gadgets Categories"
+                      class="w-100"
+                    />
+                  </div>
+                  <p class="categories-text">{{$category->name}}</p>
+                </a>
+              </div>
+            @empty
+                <div class="col-12 text-center py-5" data-aos="fade-up" data-aos-delay="100">
+                  No Categories Found
+
                 </div>
-                <p class="categories-text">Gadgets</p>
-              </a>
-            </div>
-            <div
-              class="col-6 col-md-3 col-lg-2"
-              data-aos="fade-up"
-              data-aos-delay="200"
-            >
-              <a class="component-categories d-block" href="#">
-                <div class="categories-image">
-                  <img
-                    src="/images/categories-furniture.svg"
-                    alt="Furniture Categories"
-                    class="w-100"
-                  />
-                </div>
-                <p class="categories-text">Furniture</p>
-              </a>
-            </div>
-            <div
-              class="col-6 col-md-3 col-lg-2"
-              data-aos="fade-up"
-              data-aos-delay="300"
-            >
-              <a class="component-categories d-block" href="#">
-                <div class="categories-image">
-                  <img
-                    src="/images/categories-make-up.svg"
-                    alt="Makeup Categories"
-                    class="w-100"
-                  />
-                </div>
-                <p class="categories-text">Makeup</p>
-              </a>
-            </div>
-            <div
-              class="col-6 col-md-3 col-lg-2"
-              data-aos="fade-up"
-              data-aos-delay="400"
-            >
-              <a class="component-categories d-block" href="#">
-                <div class="categories-image">
-                  <img
-                    src="/images/categories-sneaker.svg"
-                    alt="Sneaker Categories"
-                    class="w-100"
-                  />
-                </div>
-                <p class="categories-text">Sneaker</p>
-              </a>
-            </div>
-            <div
-              class="col-6 col-md-3 col-lg-2"
-              data-aos="fade-up"
-              data-aos-delay="500"
-            >
-              <a class="component-categories d-block" href="#">
-                <div class="categories-image">
-                  <img
-                    src="/images/categories-tools.svg"
-                    alt="Tools Categories"
-                    class="w-100"
-                  />
-                </div>
-                <p class="categories-text">Tools</p>
-              </a>
-            </div>
-            <div
-              class="col-6 col-md-3 col-lg-2"
-              data-aos="fade-up"
-              data-aos-delay="600"
-            >
-              <a class="component-categories d-block" href="#">
-                <div class="categories-image">
-                  <img
-                    src="/images/categories-baby.svg"
-                    alt="Baby Categories"
-                    class="w-100"
-                  />
-                </div>
-                <p class="categories-text">Baby</p>
-              </a>
-            </div>
+            @endforelse
           </div>
         </div>
       </section>
@@ -122,133 +47,42 @@
             </div>
           </div>
           <div class="row">
-            <div
-              class="col-6 col-md-4 col-lg-3"
-              data-aos="fade-up"
-              data-aos-delay="100"
-            >
-              <a href="/details.html" class="component-products d-block">
-                <div class="products-thumbnail">
-                  <div
-                    class="products-image"
-                    style="background-image: url('/images/apple-watch.jpg')"
-                  ></div>
+            @php
+                $incrementProduct = 0;
+            @endphp
+            @forelse ($products as $product)
+                <div
+                class="col-6 col-md-4 col-lg-3"
+                data-aos="fade-up"
+                data-aos-delay="{{ $incrementProduct+=100}}"
+              >
+                <a href="{{route('detail',$product->slug)}}" class="component-products d-block">
+                  <div class="products-thumbnail">
+                    <div
+                      class="products-image"
+                      style="
+                      @if($product->galleries->count())
+                        background-image:url('{{Storage::url($product->galleries->first()->photos)}}')
+                      @else
+                        background-color: #eee;
+                      @endif
+                      "
+                    ></div>
+                  </div>
+                  <div class="products-text">{{$product->name}}</div>
+                  <div class="products-price">${{$product->price}}</div>
+                </a>
+              </div>
+            @empty
+                  <div class="col-12 text-center py-5" data-aos="fade-up" data-aos-delay="100">
+                  No Products Found
+
                 </div>
-                <div class="products-text">Apple Watch 4</div>
-                <div class="products-price">$898</div>
-              </a>
-            </div>
-            <div
-              class="col-6 col-md-4 col-lg-3"
-              data-aos="fade-up"
-              data-aos-delay="200"
-            >
-              <a href="/details.html" class="component-products d-block">
-                <div class="products-thumbnail">
-                  <div
-                    class="products-image"
-                    style="background-image: url('/images/orange-bogotta.jpg')"
-                  ></div>
-                </div>
-                <div class="products-text">Orange Bogotta</div>
-                <div class="products-price">$88</div>
-              </a>
-            </div>
-            <div
-              class="col-6 col-md-4 col-lg-3"
-              data-aos="fade-up"
-              data-aos-delay="300"
-            >
-              <a href="/details.html" class="component-products d-block">
-                <div class="products-thumbnail">
-                  <div
-                    class="products-image"
-                    style="background-image: url('/images/sofa-ternyaman.jpg')"
-                  ></div>
-                </div>
-                <div class="products-text">Sofa Ternyaman</div>
-                <div class="products-price">$1900</div>
-              </a>
-            </div>
-            <div
-              class="col-6 col-md-4 col-lg-3"
-              data-aos="fade-up"
-              data-aos-delay="400"
-            >
-              <a href="/details.html" class="component-products d-block">
-                <div class="products-thumbnail">
-                  <div
-                    class="products-image"
-                    style="background-image: url('/images/bubuk-maketi.jpg')"
-                  ></div>
-                </div>
-                <div class="products-text">Bubuk Maketi</div>
-                <div class="products-price">$10</div>
-              </a>
-            </div>
-            <div
-              class="col-6 col-md-4 col-lg-3"
-              data-aos="fade-up"
-              data-aos-delay="500"
-            >
-              <a href="/details.html" class="component-products d-block">
-                <div class="products-thumbnail">
-                  <div
-                    class="products-image"
-                    style="background-image: url('/images/tatakan-gelas.jpg')"
-                  ></div>
-                </div>
-                <div class="products-text">Tatakan Gelas</div>
-                <div class="products-price">$18</div>
-              </a>
-            </div>
-            <div
-              class="col-6 col-md-4 col-lg-3"
-              data-aos="fade-up"
-              data-aos-delay="600"
-            >
-              <a href="/details.html" class="component-products d-block">
-                <div class="products-thumbnail">
-                  <div
-                    class="products-image"
-                    style="background-image: url('/images/mavix-kawe.jpg')"
-                  ></div>
-                </div>
-                <div class="products-text">Mavic Kawe</div>
-                <div class="products-price">$788</div>
-              </a>
-            </div>
-            <div
-              class="col-6 col-md-4 col-lg-3"
-              data-aos="fade-up"
-              data-aos-delay="700"
-            >
-              <a href="/details.html" class="component-products d-block">
-                <div class="products-thumbnail">
-                  <div
-                    class="products-image"
-                    style="background-image: url('/images/sepatu-nike.jpg')"
-                  ></div>
-                </div>
-                <div class="products-text">Nike Black Edition</div>
-                <div class="products-price">$590</div>
-              </a>
-            </div>
-            <div
-              class="col-6 col-md-4 col-lg-3"
-              data-aos="fade-up"
-              data-aos-delay="800"
-            >
-              <a href="/details.html" class="component-products d-block">
-                <div class="products-thumbnail">
-                  <div
-                    class="products-image"
-                    style="background-image: url('/images/monkey-toy.jpg')"
-                  ></div>
-                </div>
-                <div class="products-text">Monkey Toy</div>
-                <div class="products-price">$788</div>
-              </a>
+            @endforelse
+          </div>
+          <div class="row">
+            <div class="col-12 mt-4">
+              {{$products->links()}}
             </div>
           </div>
         </div>

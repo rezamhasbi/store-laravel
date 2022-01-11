@@ -28,7 +28,7 @@
           </div>
         </div>
       </section>
-      <section class="store-gallery" id="gallery">
+      <section class="store-gallery mb-3" id="gallery">
         <div class="container">
           <div class="row">
             <div class="col-lg-8" data-aos="zoom-in">
@@ -69,16 +69,26 @@
           <div class="container">
             <div class="row">
               <div class="col-lg-8">
-                <h1>Sofa Ternyaman</h1>
-                <div class="owner">By Galig Pratama</div>
-                <div class="price">$1,555</div>
+                <h1>{{$product->name}}</h1>
+                <div class="owner">{{$product->user->store_name}}</div>
+                <div class="price">{{number_format($product->price)}}</div>
               </div>
               <div class="col-lg-2" data-aos="zoom-in">
-                <a
-                  href="/cart.html"
+              @auth
+              <form action="{{route('detail-add',$product->id)}}" method="POST" enctype="multipart/form-data">
+                @csrf
+                  <button
+                  type="submit"
                   class="btn btn-success px-4 text-white btn-block mb-3"
-                  >Add to Cart</a
-                >
+                  >Add to Cart</button>
+              </form>
+
+              @else
+                  <a
+                  class="btn btn-success px-4 text-white btn-block mb-3"
+                  href="{{route('login')}}"
+                  >Sign in to Add</a>
+              @endauth
               </div>
             </div>
           </div>
@@ -87,18 +97,7 @@
           <div class="container">
             <div class="row">
               <div class="col-12 col-lg-8">
-                <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Qui
-                  enim ipsam odio omnis repellendus molestias exercitationem,
-                  perferendis quod sunt nulla commodi nisi quidem quas. Impedit
-                  rerum eveniet nam aperiam deserunt!
-                </p>
-                <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Qui
-                  enim ipsam odio omnis repellendus molestias exercitationem,
-                  perferendis quod sunt nulla commodi nisi quidem quas. Impedit
-                  rerum eveniet nam aperiam deserunt!
-                </p>
+                {!! $product->description!!}
               </div>
             </div>
           </div>
@@ -176,24 +175,14 @@
           AOS.init();
         },
         data: {
-          activePhoto: 1,
+          activePhoto: 0,
           photos: [
+            @foreach($product->galleries as $gallery)
             {
-              id: 1,
-              url: "/images/products-detail-1.jpg",
-            },
-            {
-              id: 2,
-              url: "/images/products-detail-2.png",
-            },
-            {
-              id: 3,
-              url: "/images/products-detail-3.png",
-            },
-            {
-              id: 4,
-              url: "/images/products-detail-4.png",
-            },
+              id:{{$gallery->id}},
+              url:"{{Storage::url($gallery->photos)}}",
+            }
+            @endforeach
           ],
         },
         methods: {
